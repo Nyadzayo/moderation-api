@@ -600,5 +600,3 @@ CORS_ORIGINS = ["https://yourdomain.com"]  # Production
 4. **Analytics**: Track moderation trends
 5. **Webhooks**: Real-time notifications
 6. **Multi-Language**: Support non-English text
-
-

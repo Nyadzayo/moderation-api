@@ -83,7 +83,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64
     
     - name: Image digest
       run: echo ${{ steps.meta.outputs.digest }}
@@ -103,6 +103,6 @@ jobs:
     
     - name: Deployment Status
       run: |
-        echo "✅ Docker image pushed successfully"
-        echo "✅ Railway will auto-deploy in ~2-3 minutes"
+        echo "Docker image pushed successfully"
+        echo "Railway will auto-deploy in ~2-3 minutes"
         echo "Check Railway dashboard for deployment status"

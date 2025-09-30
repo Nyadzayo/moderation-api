@@ -1,0 +1,24 @@
+# Production dependencies
+
+# FastAPI and server
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+gunicorn>=21.0.0
+
+# Pydantic for validation
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# ML/NLP dependencies
+transformers>=4.30.0
+torch>=2.0.0
+sentencepiece>=0.1.99
+
+# Redis
+redis>=5.0.0
+
+# HTTP client
+httpx>=0.24.0
+
+# Python standard library enhancements
+python-multipart>=0.0.6

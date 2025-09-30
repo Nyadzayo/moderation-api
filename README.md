@@ -257,7 +257,6 @@ railway up
 ## Documentation
 
 - **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - System design & diagrams
-- **[DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Deployment guide
 
 ---
 

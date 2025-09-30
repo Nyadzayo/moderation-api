@@ -1,4 +1,4 @@
-# 🏗️ System Architecture
+# System Architecture
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -188,10 +188,10 @@ ZCARD - Count requests in window
 ```
 
 **Why Sorted Sets?**
-- ✅ O(log N) operations
-- ✅ Automatic sorting by timestamp
-- ✅ Efficient range queries
-- ✅ Accurate sliding window (vs fixed window)
+- O(log N) operations
+- Automatic sorting by timestamp
+- Efficient range queries
+- Accurate sliding window (vs fixed window)
 
 **Flow**:
 ```
@@ -214,10 +214,10 @@ cache_key = f"cache:moderate:{body_hash}"
 ```
 
 **Why SHA256?**
-- ✅ Deterministic (same input = same hash)
-- ✅ Fast computation (~1μs)
-- ✅ Collision resistance
-- ✅ Fixed-length keys
+- Deterministic (same input = same hash)
+- Fast computation (~1μs)
+- Collision resistance
+- Fixed-length keys
 
 **Cache Hit Flow**:
 ```
@@ -259,9 +259,9 @@ def load_model():
 ```
 
 **Why Lazy Loading?**
-- ✅ Faster API startup (~1s vs ~12s)
-- ✅ Model loads only if needed
-- ✅ Suitable for serverless/autoscaling
+- Faster API startup (~1s vs ~12s)
+- Model loads only if needed
+- Suitable for serverless/autoscaling
 
 **Threshold Algorithm**:
 ```python
@@ -297,9 +297,9 @@ redis_pool = ConnectionPool(
 ```
 
 **Why Connection Pooling?**
-- ✅ Reuse TCP connections (faster)
-- ✅ Limit concurrent connections
-- ✅ Automatic reconnection
+- Reuse TCP connections (faster)
+- Limit concurrent connections
+- Automatic reconnection
 
 #### ML Model (toxic-bert)
 
@@ -485,9 +485,9 @@ Client → LB  ───  ├─── API Instance 2 ───┤  ──→ Re
 ```
 
 **No Code Changes Required**:
-- ✅ Stateless API (no local state)
-- ✅ Shared Redis for cache/rate limit
-- ✅ Each instance can handle ~1000 req/sec
+- Stateless API (no local state)
+- Shared Redis for cache/rate limit
+- Each instance can handle ~1000 req/sec
 
 **Bottlenecks**:
 1. **Redis**: Single instance ~80k ops/sec

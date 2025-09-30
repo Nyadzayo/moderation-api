@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+*.cover
+
+# Environment files
+.env
+.env.local
+.env.dev
+.env.prod
+
+# Documentation (not needed in image)
+docs/
+*.md
+!requirements.txt
+
+# CI/CD
+.github/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local model cache (we pre-download in Dockerfile)
+models_cache/
+
+# Tests
+tests/
+pytest.ini

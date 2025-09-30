@@ -257,13 +257,10 @@ railway up
 ## Documentation
 
 - **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - System design & diagrams
-- **[DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Deployment guide
 
 ---
 
-## For Interviewers
-
-### Quick Demo
+## Quick Start Demo
 
 ```bash
 # Pull and run (requires Docker)
@@ -279,13 +276,13 @@ curl -X POST "http://localhost:8000/v1/moderate" \
 open http://localhost:8000/docs
 ```
 
-### What to Look For
+### Project Highlights
 
-1. **Code Quality** - Clean, well-documented, type-hinted
-2. **Testing** - 100% passing, comprehensive coverage
-3. **Architecture** - Scalable, production-ready design
-4. **CI/CD** - Automated pipeline with GitHub Actions
-5. **Documentation** - Thorough technical docs
+- Clean, well-documented code with comprehensive type hints
+- Full test coverage with 22 passing tests
+- Scalable, production-ready architecture
+- Automated CI/CD pipeline with GitHub Actions
+- Comprehensive technical documentation
 
 ---
 

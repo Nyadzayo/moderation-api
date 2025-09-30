@@ -601,10 +601,4 @@ CORS_ORIGINS = ["https://yourdomain.com"]  # Production
 5. **Webhooks**: Real-time notifications
 6. **Multi-Language**: Support non-English text
 
----
 
-**For interview discussions, focus on:**
-- Why Redis for both cache and rate limiting?
-- Trade-offs of lazy loading vs eager loading?
-- How to scale to 1M requests/day?
-- Security considerations for production?

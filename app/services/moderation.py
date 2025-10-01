@@ -133,22 +133,45 @@ async def run_inference(text: str, model_name: Optional[str] = None) -> Dict[str
         # Apply sigmoid to get probabilities
         probabilities = torch.sigmoid(logits).cpu().numpy()[0]
 
-        # Map to categories
-        # For toxic-bert, we'll create a simple mapping
-        # In a real implementation, you'd map based on the model's actual labels
-        scores = {
-            "harassment": float(probabilities[0]) if len(probabilities) > 0 else 0.0,
-            "hate": float(probabilities[1]) if len(probabilities) > 1 else 0.0,
-            "profanity": float(probabilities[2]) if len(probabilities) > 2 else 0.0,
-            "sexual": float(probabilities[3]) if len(probabilities) > 3 else 0.0,
-            "violence": float(probabilities[4]) if len(probabilities) > 4 else 0.0,
-            "spam": float(probabilities[5]) if len(probabilities) > 5 else 0.0,
-        }
+        # Map toxic-bert labels to OpenAI moderation categories
+        # toxic-bert outputs: [toxic, severe_toxic, obscene, threat, insult, identity_hate]
+        # Our categories: [harassment, hate, profanity, sexual, spam, violence]
 
-        # Ensure all categories are present
-        for category in CATEGORIES:
-            if category not in scores:
-                scores[category] = 0.0
+        # Mapping logic based on label semantics:
+        # - toxic/severe_toxic/insult → harassment (aggressive behavior)
+        # - identity_hate → hate (targeted discrimination)
+        # - obscene → profanity (inappropriate language)
+        # - threat → violence (threatening behavior)
+        # Note: toxic-bert doesn't have sexual/spam, so we derive them from other signals
+
+        toxic_score = float(probabilities[0]) if len(probabilities) > 0 else 0.0
+        severe_toxic_score = float(probabilities[1]) if len(probabilities) > 1 else 0.0
+        obscene_score = float(probabilities[2]) if len(probabilities) > 2 else 0.0
+        threat_score = float(probabilities[3]) if len(probabilities) > 3 else 0.0
+        insult_score = float(probabilities[4]) if len(probabilities) > 4 else 0.0
+        identity_hate_score = float(probabilities[5]) if len(probabilities) > 5 else 0.0
+
+        scores = {
+            # Harassment: combination of toxic, insult, and severe_toxic
+            "harassment": max(insult_score, (toxic_score + severe_toxic_score) / 2),
+
+            # Hate: primarily identity_hate, boosted by severe_toxic
+            "hate": max(identity_hate_score, severe_toxic_score * 0.8),
+
+            # Profanity: obscene language
+            "profanity": obscene_score,
+
+            # Sexual: derive from obscene when combined with low threat/insult
+            # (obscene language that's not threatening/insulting is often sexual)
+            "sexual": obscene_score * 0.6 if threat_score < 0.5 and insult_score < 0.5 else obscene_score * 0.3,
+
+            # Violence: threat-based content
+            "violence": threat_score,
+
+            # Spam: derive from toxic patterns with low semantic content
+            # (repetitive toxic content with low specific category scores)
+            "spam": toxic_score * 0.3 if all(s < 0.4 for s in [insult_score, threat_score, obscene_score]) else 0.0,
+        }
 
         return scores
 

@@ -55,6 +55,13 @@ async def moderate(request: Request, moderation_request: ModerationRequest) -> M
             # Get model name (use default if not provided)
             model_name = moderation_request.model or settings.default_model
 
+            # Extract requested categories from thresholds
+            # If thresholds provided, only return those categories
+            # If no thresholds, return all categories (backward compatible)
+            requested_categories = None
+            if moderation_request.thresholds:
+                requested_categories = list(moderation_request.thresholds.keys())
+
             # Process each input
             for input_item in moderation_request.inputs:
                 with timer() as item_timer:
@@ -64,6 +71,7 @@ async def moderate(request: Request, moderation_request: ModerationRequest) -> M
                             text=input_item.text,
                             model_name=model_name,
                             custom_thresholds=moderation_request.thresholds,
+                            requested_categories=requested_categories,
                         )
 
                         # Create result

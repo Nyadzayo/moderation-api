@@ -222,6 +222,7 @@ async def moderate_text(
     text: str,
     model_name: Optional[str] = None,
     custom_thresholds: Optional[Dict[str, float]] = None,
+    requested_categories: Optional[list] = None,
 ) -> tuple[bool, Dict[str, bool], Dict[str, float]]:
     """
     Moderate a single text input.
@@ -230,6 +231,7 @@ async def moderate_text(
         text: Text to moderate
         model_name: Model identifier (optional)
         custom_thresholds: Optional custom thresholds per category
+        requested_categories: Optional list of categories to return (filters output)
 
     Returns:
         tuple: (flagged, category_flags, scores)
@@ -239,5 +241,10 @@ async def moderate_text(
 
     # Apply thresholds
     flagged, category_flags = apply_thresholds(scores, custom_thresholds)
+
+    # Filter results if specific categories requested
+    if requested_categories is not None:
+        scores = {cat: scores[cat] for cat in requested_categories if cat in scores}
+        category_flags = {cat: category_flags[cat] for cat in requested_categories if cat in category_flags}
 
     return flagged, category_flags, scores

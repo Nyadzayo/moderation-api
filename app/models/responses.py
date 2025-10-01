@@ -111,6 +111,8 @@ class ComponentStatus(BaseModel):
     name: Optional[str] = Field(None, description="Component name")
     load_time_seconds: Optional[float] = Field(None, description="Load time in seconds")
 
+    model_config = {"exclude_none": True}
+
 
 class HealthResponse(BaseModel):
     """Response schema for GET /v1/health endpoint."""

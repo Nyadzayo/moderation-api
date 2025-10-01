@@ -16,6 +16,7 @@ router = APIRouter()
 @router.get(
     "/health",
     response_model=HealthResponse,
+    response_model_exclude_none=True,
     responses={
         200: {"description": "All systems operational"},
         503: {"description": "One or more critical components unavailable"},

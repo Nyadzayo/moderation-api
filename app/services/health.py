@@ -7,6 +7,7 @@ from typing import Dict
 from app.config.settings import settings
 from app.utils.redis_client import check_redis_health
 from app.services.moderation import is_model_loaded, get_loaded_model_name, get_model_load_time
+from app.services.image_moderation import is_image_model_loaded, get_loaded_image_model_name, get_image_model_load_time
 from app.models.responses import ComponentStatus
 
 logger = logging.getLogger(__name__)
@@ -48,17 +49,29 @@ async def check_health() -> tuple[str, Dict[str, ComponentStatus]]:
     else:
         components["redis"] = ComponentStatus(status="unavailable")
 
-    # Check Model
+    # Check Text Model
     if is_model_loaded():
         model_name = get_loaded_model_name()
         load_time = get_model_load_time()
-        components["model"] = ComponentStatus(
+        components["text_model"] = ComponentStatus(
             status="loaded",
             name=model_name,
             load_time_seconds=round(load_time, 2) if load_time else None,
         )
     else:
-        components["model"] = ComponentStatus(status="not_loaded")
+        components["text_model"] = ComponentStatus(status="not_loaded")
+
+    # Check Image Model
+    if is_image_model_loaded():
+        image_model_name = get_loaded_image_model_name()
+        image_load_time = get_image_model_load_time()
+        components["image_model"] = ComponentStatus(
+            status="loaded",
+            name=image_model_name,
+            load_time_seconds=round(image_load_time, 2) if image_load_time else None,
+        )
+    else:
+        components["image_model"] = ComponentStatus(status="not_loaded")
 
     # Determine overall status
     overall_status = "healthy"

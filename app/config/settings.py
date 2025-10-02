@@ -21,6 +21,15 @@ class Settings(BaseSettings):
     model_cache_dir: str = Field(default="./models_cache", alias="MODEL_CACHE_DIR")
     lazy_load_model: bool = Field(default=True, alias="LAZY_LOAD_MODEL")
 
+    # Image Model Configuration
+    default_image_model: str = Field(
+        default="Falconsai/nsfw_image_detection",
+        alias="DEFAULT_IMAGE_MODEL"
+    )
+    image_max_size_mb: int = Field(default=10, alias="IMAGE_MAX_SIZE_MB")
+    image_max_dimension: int = Field(default=4096, alias="IMAGE_MAX_DIMENSION")
+    image_url_timeout: int = Field(default=10, alias="IMAGE_URL_TIMEOUT")
+
     # Redis Configuration
     redis_host: str = Field(default="localhost", alias="REDIS_HOST")
     redis_port: int = Field(default=6379, alias="REDIS_PORT")

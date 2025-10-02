@@ -13,6 +13,7 @@ from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.cache import CacheMiddleware
 from app.utils.redis_client import init_redis_pool, close_redis_pool
 from app.utils.colored_logging import ColoredFormatter
+from app.services.image_moderation import close_http_session
 
 # Configure logging with colors
 logging.basicConfig(
@@ -53,7 +54,9 @@ async def lifespan(app: FastAPI):
 
     # Shutdown
     logger.info("Shutting down Moderation API...")
+    await close_http_session()
     close_redis_pool()
+    logger.info("Resources cleaned up")
 
 
 # Create FastAPI application

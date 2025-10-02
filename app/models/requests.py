@@ -8,6 +8,10 @@ class ModerationInput(BaseModel):
     """Single input item for moderation."""
 
     text: str = Field(..., description="Text content to moderate", min_length=1)
+    image: Optional[str] = Field(
+        None,
+        description="Image URL or base64-encoded image string"
+    )
 
 
 class ModerationRequest(BaseModel):
@@ -46,7 +50,10 @@ class ModerationRequest(BaseModel):
             "example": {
                 "inputs": [
                     {"text": "Hello, world!"},
-                    {"text": "You are an awful person."},
+                    {
+                        "text": "Check this image",
+                        "image": "https://example.com/image.jpg"
+                    },
                 ],
                 "model": "unitary/toxic-bert",
                 "thresholds": {

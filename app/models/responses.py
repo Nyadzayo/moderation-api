@@ -8,7 +8,10 @@ class ModelInfo(BaseModel):
     """Model metadata information."""
 
     text_model: str = Field(..., description="Text moderation model name")
+    image_model: Optional[str] = Field(None, description="Image moderation model name")
     version: str = Field(..., description="API version")
+
+    model_config = {"exclude_none": True}
 
 
 class ModerationResult(BaseModel):

@@ -52,7 +52,7 @@ class TestHealthEndpoint:
                 assert response.status_code == 200
                 data = response.json()
 
-                assert data["components"]["model"]["status"] == "not_loaded"
+                assert data["components"]["text_model"]["status"] == "not_loaded"
 
     def test_health_model_loaded(self, client):
         """Test health check when model is loaded."""
@@ -74,8 +74,8 @@ class TestHealthEndpoint:
                         assert response.status_code == 200
                         data = response.json()
 
-                        assert data["components"]["model"]["status"] == "loaded"
+                        assert data["components"]["text_model"]["status"] == "loaded"
                         assert (
-                            data["components"]["model"]["name"] == "unitary/toxic-bert"
+                            data["components"]["text_model"]["name"] == "unitary/toxic-bert"
                         )
-                        assert data["components"]["model"]["load_time_seconds"] == 12.5
+                        assert data["components"]["text_model"]["load_time_seconds"] == 12.5
